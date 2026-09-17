@@ -22,7 +22,11 @@ require __DIR__ . '/includes/header.php';
     <div class="hero-texte">
       <span class="eyebrow">L'arbre miracle, cultivé au Sénégal</span>
       <h1>Le moringa, tel que la nature l'a pensé.</h1>
-      <p class="intro">Poudre, huile et jus préparés à partir de feuilles et de graines récoltées à maturité, transformées dans les règles de l'art — sans additif, sans raccourci.</p>
+      <p class="intro">SenMoringa est une entreprise sénégalaise qui valorise le moringa local à travers des produits alimentaires et cosmétiques naturels, de qualité et accessibles.
+
+Notre mission est de contribuer à une meilleure nutrition, de promouvoir le Made in Senegal et de créer des opportunités d’emploi pour les jeunes et les femmes.
+
+À travers une transformation soignée et un engagement envers la qualité, SenMoringa ambitionne de faire du moringa sénégalais une référence de qualité et d’innovation, au Sénégal et au-delà.</p>
       <div class="hero-actions">
         <a href="<?= BASE_URL ?>/boutique.php" class="btn btn-principal">Découvrir la boutique</a>
         <a href="<?= BASE_URL ?>/a-propos.php" class="btn btn-contour">Notre histoire</a>
@@ -30,12 +34,12 @@ require __DIR__ . '/includes/header.php';
       <div class="hero-stats">
         <div><strong data-compte-jusqua="100" data-suffixe="%">0%</strong><span>Naturel, sans additif</span></div>
         <div><strong data-compte-jusqua="500" data-suffixe="+">0+</strong><span>Familles servies</span></div>
-        <div><strong data-compte-jusqua="48" data-suffixe="h">0h</strong><span>Livraison à Dakar</span></div>
+        <div><strong data-compte-jusqua="24" data-suffixe="h">0h</strong><span>Livraison à Dakar</span></div>
       </div>
     </div>
     <div class="hero-visuel">
       <div class="cadre-feuille"><img src="<?= BASE_URL ?>/assets/images/site/feuille-moringa.png" alt="Feuille de moringa" class="photo-feuille"></div>
-      <div class="pastille-flottante pastille-1"><?= svgIconeBienfait('nutrition') ?><span><strong>92</strong>nutriments essentiels</span></div>
+      <div class="pastille-flottante pastille-1"><?= svgIconeBienfait('nutrition') ?><span><strong>+10</strong>nutriments essentiels</span></div>
       <div class="pastille-flottante pastille-2"><?= svgIconeBienfait('immunite') ?><span><strong>0</strong>conservateur ajouté</span></div>
     </div>
   </div>
