@@ -52,7 +52,7 @@ Notre mission est de contribuer à une meilleure nutrition, de promouvoir le Mad
     <div class="section-tete">
       <span class="eyebrow">Au quotidien</span>
       <h2>Sur le terrain, avec notre équipe</h2>
-      <p>De la plantation à l'atelier, en passant par la formation de notre équipe — un aperçu de ce qui se passe derrière chaque flacon.</p>
+      <p>De la plantation à l'atelier, en passant par la formation de notre équipe — un aperçu de ce qui se passe derrière chaque produit.</p>
     </div>
   </div>
   <div class="galerie-defilement galerie-defilement-grande">
