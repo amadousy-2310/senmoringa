@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --vert-foret: #23421F;
+  --vert-feuille: #4F8B3B;
+  --sable: #F1E9D6;
+  --sable-fonce: #E4D6B4;
+  --creme: #FBF8F1;
+  --terre: #A2622B;
+  --or: #C99A3B;
+  --encre: #212B1D;
+  --encre-douce: #5b6656;
+  --rouge: #B0432C;
+  --font-display: 'Fraunces', serif;
+  --font-corps: 'Work Sans', sans-serif;
+  --font-detail: 'Space Mono', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-corps); background: var(--sable); color: var(--encre); }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3 { font-family: var(--font-display); color: var(--vert-foret); font-weight: 600; }
+
+.admin-layout { display: grid; grid-template-columns: 250px 1fr; min-height: 100vh; }
+
+.admin-sidebar { background: var(--vert-foret); color: var(--sable); padding: 28px 20px; display: flex; flex-direction: column; }
+.admin-logo { font-family: var(--font-display); font-size: 1.35rem; margin-bottom: 40px; display:flex; align-items:center; gap:8px; }
+.admin-nav a { display: block; padding: 11px 14px; border-radius: 10px; font-size: 0.92rem; margin-bottom: 4px; color: var(--sable-fonce); }
+.admin-nav a:hover { background: rgba(241,233,214,0.08); color: var(--sable); }
+.admin-nav a.actif { background: var(--sable); color: var(--vert-foret); font-weight: 600; }
+.admin-sidebar-bas { margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(241,233,214,0.15); }
+.admin-sidebar-bas a { font-size: 0.85rem; color: var(--sable-fonce); }
+
+.admin-main { padding: 34px 40px; }
+.admin-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+.admin-topbar h1 { font-size: 1.7rem; }
+.admin-topbar p { color: var(--encre-douce); font-size: 0.9rem; margin-top: 4px; }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: 10px; font-weight: 600; font-size: 0.9rem; border: none; cursor: pointer; transition: transform .15s, background .15s; }
+.btn-principal { background: var(--vert-foret); color: var(--sable); }
+.btn-principal:hover { background: var(--vert-feuille); }
+.btn-contour { background: transparent; border: 1.5px solid var(--vert-foret); color: var(--vert-foret); }
+.btn-contour:hover { background: var(--vert-foret); color: var(--sable); }
+.btn-danger { background: transparent; color: var(--rouge); border: 1.5px solid var(--rouge); }
+.btn-danger:hover { background: var(--rouge); color: white; }
+.btn-petit { padding: 7px 14px; font-size: 0.8rem; }
+
+.cartes-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 34px; }
+.carte-stat { background: var(--creme); border-radius: 16px; padding: 22px; box-shadow: 0 6px 18px -10px rgba(31,58,36,0.2); }
+.carte-stat span.label { font-family: var(--font-detail); font-size: 0.72rem; text-transform: uppercase; letter-spacing: .07em; color: var(--encre-douce); }
+.carte-stat strong { display: block; font-family: var(--font-display); font-size: 1.9rem; color: var(--vert-foret); margin-top: 8px; }
+
+.panneau { background: var(--creme); border-radius: 18px; padding: 26px; box-shadow: 0 6px 18px -10px rgba(31,58,36,0.15); margin-bottom: 26px; }
+.panneau-tete { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; font-family: var(--font-detail); font-size: 0.72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--encre-douce); padding: 10px 12px; border-bottom: 2px solid var(--sable-fonce); }
+td { padding: 14px 12px; border-bottom: 1px solid var(--sable-fonce); font-size: 0.9rem; vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+.miniature-table { width: 44px; height: 44px; border-radius: 8px; background: var(--sable-fonce); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.miniature-table img { width:100%; height:100%; object-fit:cover; }
+
+.badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 0.74rem; font-weight: 600; font-family: var(--font-detail); }
+.badge-vert { background: #E5EFD9; color: var(--vert-foret); }
+.badge-jaune { background: #F6EBD0; color: var(--terre); }
+.badge-rouge { background: #F4DDD3; color: var(--rouge); }
+.badge-gris { background: #E9E4D6; color: var(--encre-douce); }
+
+.actions-table { display: flex; gap: 8px; }
+.actions-table a, .actions-table button { padding: 6px 10px; border-radius: 8px; font-size: 0.78rem; }
+
+.groupe-champ { margin-bottom: 18px; }
+.groupe-champ label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 7px; color: var(--vert-foret); }
+.groupe-champ input, .groupe-champ select, .groupe-champ textarea {
+  width: 100%; padding: 11px 14px; border-radius: 10px; border: 1.5px solid var(--sable-fonce); background: white; font-family: inherit; font-size: 0.92rem;
+}
+.groupe-champ .aide { font-size: 0.78rem; color: var(--encre-douce); margin-top: 5px; }
+.aide { font-size: 0.78rem; color: var(--encre-douce); }
+.ligne-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.ligne-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+.checkbox-inline { display: flex; align-items: center; gap: 10px; }
+.checkbox-inline input { width: auto; }
+
+.alerte { padding: 13px 18px; border-radius: 10px; font-size: 0.88rem; margin-bottom: 20px; }
+.alerte-succes { background: #E5EFD9; color: var(--vert-foret); }
+.alerte-erreur { background: #F4DDD3; color: #7A2E15; }
+
+.page-login { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--vert-foret); }
+.carte-login { background: var(--creme); padding: 44px; border-radius: 22px; width: 100%; max-width: 400px; box-shadow: 0 20px 50px -20px rgba(0,0,0,.4); }
+.carte-login .admin-logo { color: var(--vert-foret); justify-content: center; margin-bottom: 8px; }
+.carte-login p.sous-titre { text-align:center; color: var(--encre-douce); font-size: 0.88rem; margin-bottom: 28px; }
+
+@media (max-width: 900px) {
+  .admin-layout { grid-template-columns: 1fr; }
+  .admin-sidebar { display: none; }
+  .cartes-stats { grid-template-columns: repeat(2,1fr); }
+  .ligne-2, .ligne-3 { grid-template-columns: 1fr; }
+}
