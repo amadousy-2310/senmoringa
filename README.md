@@ -59,7 +59,7 @@ echo password_hash('VotreNouveauMotDePasse', PASSWORD_DEFAULT);
 
 ## Sécurité de l'espace admin
 
-- **Protection anti-brute-force** : au bout de 5 tentatives de connexion échouées depuis la même adresse IP, la connexion est bloquée pendant 15 minutes. Si votre base de données existait déjà avant cette mise à jour, exécutez `sql/mise-a-jour-2026-08-securite.sql` dans phpMyAdmin pour créer la table nécessaire (`admin_tentatives_connexion`) ; pour une toute nouvelle installation, elle est déjà incluse dans `sql/senmoringa.sql`.
+- **Protection anti-brute-force** : au bout de 5 tentatives de connexion échouées depuis la même adresse IP, la connexion est bloquée pendant 15 minutes. La table nécessaire (`admin_tentatives_connexion`) est créée automatiquement par `sql/senmoringa.sql`, que ce soit pour une nouvelle installation ou pour mettre à jour une base existante.
 - **Sessions sécurisées** : à chaque connexion réussie, l'identifiant de session est régénéré (protège contre le vol de session), et le cookie de session est marqué `HttpOnly` (inaccessible en JavaScript) et `Secure` automatiquement si le site tourne en HTTPS.
 
 ## Structure du projet
@@ -71,7 +71,8 @@ senmoringa/
 ├── admin/                     → back-office (produits, catégories, commandes)
 ├── assets/css/                → styles (style.css = site public, admin.css = back-office)
 ├── assets/images/produits/    → photos des produits (uploadées depuis l'admin)
-├── sql/senmoringa.sql         → schéma de base de données + données de démonstration
+├── sql/senmoringa.sql         → fichier unique : schéma + données. Sert aussi bien à l'installation qu'aux mises à jour (sans danger à ré-importer)
+
 ├── index.php                  → page d'accueil
 ├── boutique.php                → catalogue avec filtres
 ├── produit.php                 → fiche produit
