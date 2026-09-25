@@ -29,9 +29,9 @@ avec panier, tunnel de commande, et back-office d'administration.
 5. **Ouvrir le site** : `http://localhost/senmoringa/index.php`
 
 6. **Accéder à l'administration** : `http://localhost/senmoringa/admin/login.php`
-   - Identifiant : `admin`
-   - Mot de passe : `SenMoringa2026!`
-   - **Changez ce mot de passe dès que possible** (voir section dédiée plus bas).
+   - Identifiant : ton adresse e-mail admin (configurée dans la table `admin_users`)
+   - Mot de passe : celui que tu as défini
+   - Si tu changes de mot de passe, fais-le rapidement et ne le laisse jamais en clair dans un fichier du dépôt (voir section dédiée plus bas).
 
 ## Mise en ligne chez un hébergeur (mutualisé type OVH, Hostinger, etc.)
 
@@ -47,7 +47,7 @@ Ce sont des extensions standards, déjà actives par défaut chez la quasi-total
 
 ## Changer le mot de passe administrateur
 
-Le mot de passe par défaut est `SenMoringa2026!`. Pour le changer :
+Pour changer le mot de passe (recommandé régulièrement, et obligatoire si l'identifiant/mot de passe a pu fuiter) :
 
 1. Générez un nouveau hash avec ce court script PHP (à exécuter une fois puis supprimer) :
 ```php
@@ -55,11 +55,11 @@ Le mot de passe par défaut est `SenMoringa2026!`. Pour le changer :
 echo password_hash('VotreNouveauMotDePasse', PASSWORD_DEFAULT);
 ```
 2. Copiez le résultat (commence par `$2y$...`)
-3. Dans phpMyAdmin, table `admin_users`, modifiez la colonne `password_hash` de la ligne `admin` avec cette nouvelle valeur.
+3. Dans phpMyAdmin, table `admin_users`, modifiez la colonne `password_hash` de la ligne correspondante avec cette nouvelle valeur.
 
 ## Sécurité de l'espace admin
 
-- **Protection anti-brute-force** : au bout de 5 tentatives de connexion échouées depuis la même adresse IP, la connexion est bloquée pendant 15 minutes. La table nécessaire (`admin_tentatives_connexion`) est créée automatiquement par `sql/senmoringa.sql`, que ce soit pour une nouvelle installation ou pour mettre à jour une base existante.
+- **Protection anti-brute-force** : au bout de 5 tentatives de connexion échouées depuis la même adresse IP, la connexion est bloquée pendant 15 minutes (table `admin_tentatives_connexion`, déjà incluse dans `sql/senmoringa.sql`).
 - **Sessions sécurisées** : à chaque connexion réussie, l'identifiant de session est régénéré (protège contre le vol de session), et le cookie de session est marqué `HttpOnly` (inaccessible en JavaScript) et `Secure` automatiquement si le site tourne en HTTPS.
 
 ## Structure du projet
@@ -71,8 +71,7 @@ senmoringa/
 ├── admin/                     → back-office (produits, catégories, commandes)
 ├── assets/css/                → styles (style.css = site public, admin.css = back-office)
 ├── assets/images/produits/    → photos des produits (uploadées depuis l'admin)
-├── sql/senmoringa.sql         → fichier unique : schéma + données. Sert aussi bien à l'installation qu'aux mises à jour (sans danger à ré-importer)
-
+├── sql/senmoringa.sql         → schéma de base de données + données de démonstration
 ├── index.php                  → page d'accueil
 ├── boutique.php                → catalogue avec filtres
 ├── produit.php                 → fiche produit

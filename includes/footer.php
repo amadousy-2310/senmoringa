@@ -9,6 +9,7 @@
         <div class="reseaux-sociaux">
           <a href="<?= e(SITE_FACEBOOK) ?>" target="_blank" rel="noopener" aria-label="Facebook"><?= svgIconeReseau('facebook') ?></a>
           <a href="<?= e(SITE_INSTAGRAM) ?>" target="_blank" rel="noopener" aria-label="Instagram"><?= svgIconeReseau('instagram') ?></a>
+          <a href="<?= e(SITE_TIKTOK) ?>" target="_blank" rel="noopener" aria-label="TikTok"><?= svgIconeReseau('tiktok') ?></a>
           <a href="<?= e(SITE_LINKEDIN) ?>" target="_blank" rel="noopener" aria-label="LinkedIn"><?= svgIconeReseau('linkedin') ?></a>
         </div>
       </div>

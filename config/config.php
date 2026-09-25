@@ -17,9 +17,10 @@ define('SITE_TELEPHONE', '+221 71 011 56 82');
 define('SITE_WHATSAPP', '221710115682');
 define('SITE_EMAIL', 'Senmoringa11@gmail.com');
 define('SITE_ADRESSE', 'Dakar, Sénégal');
-define('SITE_LINKEDIN', 'https://www.linkedin.com/in/ousmane-sy-91b854384');
-define('SITE_INSTAGRAM', 'https://www.instagram.com/sen.moringa?igsh=MTViY3h4d2U3Z2ZxdA%3D%3D&utm_source=qr');
-define('SITE_FACEBOOK', 'https://www.facebook.com/share/1FRkDUYPfk/?mibextid=wwXIfr');
+define('SITE_LINKEDIN', 'https://www.linkedin.com/in/ousmane-sy-91b854384?utm_source=share_via&utm_content=profile&utm_medium=member_ios');
+define('SITE_INSTAGRAM', 'https://www.instagram.com/sen_moringa?stkn=MWt4Z3p5dzVjNW5jeg==');
+define('SITE_FACEBOOK', 'https://www.facebook.com/profile.php?id=61589176703144');
+define('SITE_TIKTOK', 'https://www.tiktok.com/@.senmoringa?_r=1&_t=ZS-9A2MDWTMnzN');
 define('FRAIS_LIVRAISON_DAKAR', 1500);
 define('FRAIS_LIVRAISON_AUTRE', 3000);
 

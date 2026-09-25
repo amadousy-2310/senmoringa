@@ -99,6 +99,7 @@ function svgIconeReseau(string $type): string
         'linkedin' => '<path d="M6.9 8.5H3.6V20h3.3V8.5ZM5.25 3.5a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM20.4 20h-3.3v-6.1c0-1.5-.03-3.4-2.1-3.4-2.1 0-2.4 1.6-2.4 3.3V20h-3.3V8.5h3.17v1.57h.05c.44-.83 1.53-1.7 3.15-1.7 3.36 0 4 2.2 4 5.1V20Z" fill="currentColor"/>',
         'instagram' => '<rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.7" fill="none"/><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.7" fill="none"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor"/>',
         'facebook' => '<path d="M14.5 8.5h2V5.3h-2c-2.2 0-3.8 1.6-3.8 3.9v1.9H8.5v3.2h2.2V21h3.2v-6.7h2.3l.4-3.2h-2.7V9.6c0-.7.3-1.1 1.1-1.1Z" fill="currentColor"/>',
+        'tiktok' => '<path d="M16.6 3h-3.1v12.4a2.6 2.6 0 1 1-1.9-2.5V9.7a5.7 5.7 0 1 0 5 5.7V9.2a7.7 7.7 0 0 0 4.4 1.4V7.5a4.6 4.6 0 0 1-4.4-4.5Z" fill="currentColor"/>',
     ];
     $inner = $icones[$type] ?? $icones['facebook'];
     return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' . $inner . '</svg>';
