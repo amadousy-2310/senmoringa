@@ -553,3 +553,63 @@ h3 { font-size: 1.35rem; }
   .cta { padding: 40px 24px; }
   .section { padding: 54px 0; }
 }
+
+/* ---------- Vidéo d'utilisation (boutique) ---------- */
+.btn-voir-video {
+  margin-top: 8px; width: 100%; padding: 9px 14px; border-radius: 100px; font-size: 0.82rem; font-weight: 600;
+  background: transparent; border: 1.5px solid var(--vert-feuille); color: var(--vert-foret); cursor: pointer;
+  transition: background .18s, color .18s;
+}
+.btn-voir-video:hover, .carte-produit.video-active .btn-voir-video { background: var(--vert-foret); color: var(--sable); }
+.carte-produit.video-active { box-shadow: 0 0 0 3px var(--vert-clair), var(--ombre); }
+
+.panneau-video {
+  position: relative; display: grid; grid-template-columns: minmax(200px, 270px) 1fr; gap: 36px; align-items: center;
+  margin-top: 34px; padding: 30px; background: var(--creme); border-radius: 24px; box-shadow: var(--ombre);
+  border: 1px solid var(--sable-fonce); scroll-margin-top: 100px;
+  animation: panneau-video-entree .45s ease both;
+}
+.panneau-video[hidden] { display: none; }
+@keyframes panneau-video-entree { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.panneau-video-lecteur { border-radius: 18px; overflow: hidden; background: #000; aspect-ratio: 9/16; max-height: 480px; justify-self: center; width: 100%; }
+.panneau-video-lecteur video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.panneau-video-texte .cat-nom { font-family: var(--font-detail); font-size: 0.72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--vert-feuille); }
+.panneau-video-texte h3 { font-size: 1.5rem; margin: 6px 0 4px; }
+.panneau-video-produit { color: var(--encre-douce); font-size: 0.9rem; margin-bottom: 14px; }
+.panneau-video-texte ol { padding-left: 22px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.panneau-video-texte li::marker { color: var(--terre); font-weight: 700; }
+.panneau-video-astuce { background: var(--sable); border-radius: 12px; padding: 12px 16px; font-size: 0.88rem; color: var(--encre-douce); margin-bottom: 18px; }
+.panneau-video-fermer {
+  position: absolute; top: 14px; right: 16px; width: 34px; height: 34px; border-radius: 50%; border: none;
+  background: var(--sable); color: var(--vert-foret); font-size: 1.3rem; line-height: 1; cursor: pointer; z-index: 2;
+}
+.panneau-video-fermer:hover { background: var(--sable-fonce); }
+@media (max-width: 720px) {
+  .panneau-video { grid-template-columns: 1fr; padding: 22px 18px; gap: 22px; }
+  .panneau-video-lecteur { max-width: 260px; }
+}
+
+/* Page produit : bouton + vidéo juste sous le produit */
+.zone-video-produit { margin-top: 34px; text-align: center; }
+.zone-video-produit .panneau-video { text-align: left; margin-top: 24px; }
+
+/* Lecteur vidéo personnalisé (sans bouton plein écran) */
+.lecteur-perso { position: relative; }
+.lecteur-perso video { cursor: pointer; }
+.lecteur-grand-play {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 68px; height: 68px;
+  border-radius: 50%; border: none; background: rgba(255,255,255,.92); color: var(--vert-foret);
+  display: none; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--ombre);
+  transition: transform .18s;
+}
+.lecteur-grand-play.visible { display: flex; }
+.lecteur-grand-play:hover { transform: translate(-50%, -50%) scale(1.08); }
+.lecteur-grand-play svg { width: 28px; height: 28px; margin-left: 3px; }
+.lecteur-controles {
+  position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 8px;
+  padding: 26px 10px 10px; background: linear-gradient(to top, rgba(0,0,0,.65), transparent); color: #fff;
+}
+.lecteur-btn { background: none; border: none; color: #fff; width: 30px; height: 30px; padding: 4px; cursor: pointer; flex: none; display: flex; align-items: center; justify-content: center; }
+.lecteur-btn svg { width: 20px; height: 20px; }
+.lecteur-progression { flex: 1; min-width: 0; accent-color: var(--vert-clair); cursor: pointer; height: 4px; }
+.lecteur-temps { font-size: 0.7rem; font-variant-numeric: tabular-nums; flex: none; white-space: nowrap; }

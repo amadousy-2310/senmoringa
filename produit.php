@@ -18,6 +18,7 @@ if (!$produit) {
 
 $suggestions = getProduitsAccompagnement([$produit['id']], 3);
 
+$videoProduit = getVideoProduit($produit['slug']);
 $enRupture = $produit['stock'] <= 0;
 $stockBas = $produit['stock'] > 0 && $produit['stock'] <= 5;
 
@@ -85,6 +86,12 @@ require __DIR__ . '/includes/header.php';
         <?php endif; ?>
       </div>
     </div>
+
+    <?php if ($videoProduit): ?>
+      <div class="zone-video-produit">
+        <?php $pv = $produit; $masquerLienFiche = true; $panneauOuvert = true; include __DIR__ . '/includes/panneau-video.php'; ?>
+      </div>
+    <?php endif; ?>
 
     <?php if (!empty($suggestions)): ?>
       <div class="accompagnement">

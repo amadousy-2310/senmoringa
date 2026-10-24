@@ -3,8 +3,9 @@ require_once __DIR__ . '/config/config.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/svg.php';
 
+$boutonVideoActif = true; // affiche le bouton "Voir comment l'utiliser" sur les cartes + les panneaux vidéo
 $categories = getCategories();
-$ordreGammes = ['poudre' => 0, 'jus' => 1, 'huile' => 2];
+$ordreGammes = ['poudre' => 0, 'huile' => 1, 'jus' => 2];
 usort($categories, fn($a, $b) => ($ordreGammes[$a['slug']] ?? 99) <=> ($ordreGammes[$b['slug']] ?? 99));
 $populaires = getProduits(['populaire' => true, 'limite' => 4]);
 if (count($populaires) < 4) {
@@ -30,7 +31,7 @@ require __DIR__ . '/includes/header.php';
       <div class="hero-stats">
         <div><strong data-compte-jusqua="100" data-suffixe="%">0%</strong><span>Naturel, sans additif</span></div>
         <div><strong data-compte-jusqua="500" data-suffixe="+">0+</strong><span>Familles servies</span></div>
-        <div><strong data-compte-jusqua="48" data-suffixe="h">0h</strong><span>Livraison à Dakar</span></div>
+        <div><strong data-compte-jusqua="24" data-suffixe="h">0h</strong><span>Livraison à Dakar</span></div>
       </div>
     </div>
     <div class="hero-visuel">
@@ -166,6 +167,12 @@ require __DIR__ . '/includes/header.php';
         <?php include __DIR__ . '/includes/carte-produit.php'; ?>
       <?php endforeach; ?>
     </div>
+
+    <?php foreach ($populaires as $pv): ?>
+      <?php $videoProduit = getVideoProduit($pv['slug']); if (!$videoProduit) continue; ?>
+      <?php include __DIR__ . '/includes/panneau-video.php'; ?>
+    <?php endforeach; ?>
+
     <div style="text-align:center; margin-top:44px;">
       <a href="<?= BASE_URL ?>/boutique.php" class="btn btn-contour">Voir toute la boutique</a>
     </div>

@@ -12,6 +12,7 @@ $produits = getProduits([
     'recherche' => $recherche ?: null,
     'tri' => $tri,
 ]);
+$boutonVideoActif = true; // affiche le bouton "Voir comment l'utiliser" sur les cartes + les panneaux vidéo
 $categories = getCategories();
 
 $pageActive = 'boutique';
@@ -71,6 +72,11 @@ require __DIR__ . '/includes/header.php';
               <?php include __DIR__ . '/includes/carte-produit.php'; ?>
             <?php endforeach; ?>
           </div>
+
+          <?php foreach ($produits as $pv): ?>
+            <?php $videoProduit = getVideoProduit($pv['slug']); if (!$videoProduit) continue; ?>
+            <?php include __DIR__ . '/includes/panneau-video.php'; ?>
+          <?php endforeach; ?>
         <?php endif; ?>
       </div>
 

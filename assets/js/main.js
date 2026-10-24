@@ -13,6 +13,9 @@
     initApparitionAuScroll();
     initAjoutPanierAjax();
     initCompteurStats();
+    initVideoUtilisation();
+    initVideosSansPleinEcran();
+    initLecteursPersonnalises();
   });
 
   // -----------------------------------------------------
@@ -216,5 +219,170 @@
       });
     }, { threshold: 0.5 });
     compteurs.forEach(function (el) { observateur.observe(el); });
+  }
+  // -----------------------------------------------------
+  // Vidéo d'utilisation d'un produit (boutique)
+  // Clic sur le produit ou sur "Voir comment l'utiliser" -> la vidéo
+  // s'affiche sous la grille. Sans JS (ou hors boutique) le lien normal
+  // vers la fiche produit continue de fonctionner.
+  // -----------------------------------------------------
+  function initVideoUtilisation() {
+    function fermer(panneau) {
+      const video = panneau.querySelector('video');
+      if (video) video.pause();
+      panneau.hidden = true;
+      document.querySelectorAll('[data-video-cible="' + panneau.id + '"]').forEach(function (el) {
+        el.classList.remove('video-active');
+        if (el.hasAttribute('aria-expanded')) el.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    function ouvrir(panneau) {
+      document.querySelectorAll('.panneau-video').forEach(function (autre) {
+        if (autre !== panneau && !autre.hidden) fermer(autre);
+      });
+      panneau.hidden = false;
+      document.querySelectorAll('[data-video-cible="' + panneau.id + '"]').forEach(function (el) {
+        if (el.classList.contains('carte-produit')) el.classList.add('video-active');
+        if (el.hasAttribute('aria-expanded')) el.setAttribute('aria-expanded', 'true');
+      });
+      panneau.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const video = panneau.querySelector('video');
+      if (video) {
+        const lecture = video.play();
+        if (lecture && lecture.catch) lecture.catch(function () {});
+      }
+    }
+
+    // Délégation d'événements : fonctionne même si la carte est ajoutée après le chargement
+    document.addEventListener('click', function (evenement) {
+      const cible = evenement.target;
+      if (!cible || !cible.closest) return;
+
+      const fermeture = cible.closest('.panneau-video-fermer');
+      if (fermeture) {
+        const panneau = fermeture.closest('.panneau-video');
+        fermer(panneau);
+        const carte = document.querySelector('.carte-produit[data-video-cible="' + panneau.id + '"], .btn-voir-video[data-video-cible="' + panneau.id + '"]');
+        if (carte) carte.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      const declencheur = cible.closest('.btn-voir-video');
+      if (!declencheur) return;
+      const zone = declencheur.closest('[data-video-cible]');
+      if (!zone) return;
+      const panneau = document.getElementById(zone.getAttribute('data-video-cible'));
+      if (!panneau) return; // pas de panneau sur cette page (ex. accueil) : lien normal
+      evenement.preventDefault();
+      if (panneau.hidden) ouvrir(panneau); else fermer(panneau);
+    });
+  }
+  // -----------------------------------------------------
+  // Pas de plein écran sur les vidéos d'utilisation
+  // (controlsList="nofullscreen" suffit sur Chrome/Edge ; ceci couvre les autres navigateurs)
+  // -----------------------------------------------------
+  function initVideosSansPleinEcran() {
+    const videos = document.querySelectorAll('.panneau-video video');
+    if (!videos.length) return;
+
+    videos.forEach(function (video) {
+      video.addEventListener('dblclick', function (e) { e.preventDefault(); });
+      // iOS Safari
+      video.addEventListener('webkitbeginfullscreen', function () {
+        if (video.webkitExitFullscreen) video.webkitExitFullscreen();
+      });
+    });
+
+    function sortirPleinEcran() {
+      const el = document.fullscreenElement || document.webkitFullscreenElement;
+      if (el && el.tagName === 'VIDEO' && el.closest('.panneau-video')) {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      }
+    }
+    document.addEventListener('fullscreenchange', sortirPleinEcran);
+    document.addEventListener('webkitfullscreenchange', sortirPleinEcran);
+  }
+  // -----------------------------------------------------
+  // Lecteur vidéo personnalisé : lecture / progression / son, SANS bouton plein écran.
+  // (Les commandes natives des navigateurs ne permettent pas toujours de le masquer.)
+  // Sans JS, la vidéo garde ses commandes natives.
+  // -----------------------------------------------------
+  function initLecteursPersonnalises() {
+    const ICONE_PLAY  = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>';
+    const ICONE_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>';
+    const ICONE_SON   = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9.5v5h4l5 4.5v-14L7 9.5H3z"/><path d="M15.5 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+    const ICONE_MUET  = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9.5v5h4l5 4.5v-14L7 9.5H3z"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+
+    function temps(sec) {
+      if (!isFinite(sec)) return '0:00';
+      const m = Math.floor(sec / 60), r = Math.floor(sec % 60);
+      return m + ':' + (r < 10 ? '0' : '') + r;
+    }
+
+    document.querySelectorAll('.panneau-video-lecteur video').forEach(function (video) {
+      const conteneur = video.parentElement;
+      video.controls = false;
+      video.removeAttribute('controls');
+      conteneur.classList.add('lecteur-perso');
+
+      const grandPlay = document.createElement('button');
+      grandPlay.type = 'button';
+      grandPlay.className = 'lecteur-grand-play';
+      grandPlay.setAttribute('aria-label', 'Lire la vidéo');
+      grandPlay.innerHTML = ICONE_PLAY;
+
+      const barre = document.createElement('div');
+      barre.className = 'lecteur-controles';
+      barre.innerHTML =
+        '<button type="button" class="lecteur-btn lecteur-btn-play" aria-label="Lecture / pause">' + ICONE_PLAY + '</button>' +
+        '<input type="range" class="lecteur-progression" min="0" max="1000" value="0" step="1" aria-label="Progression de la vidéo">' +
+        '<span class="lecteur-temps">0:00</span>' +
+        '<button type="button" class="lecteur-btn lecteur-btn-son" aria-label="Activer / couper le son">' + ICONE_SON + '</button>';
+
+      conteneur.appendChild(grandPlay);
+      conteneur.appendChild(barre);
+
+      const btnPlay = barre.querySelector('.lecteur-btn-play');
+      const btnSon = barre.querySelector('.lecteur-btn-son');
+      const progression = barre.querySelector('.lecteur-progression');
+      const affTemps = barre.querySelector('.lecteur-temps');
+
+      function basculer() {
+        if (video.paused || video.ended) {
+          const lecture = video.play();
+          if (lecture && lecture.catch) lecture.catch(function () {});
+        } else {
+          video.pause();
+        }
+      }
+      function majEtat() {
+        const enPause = video.paused || video.ended;
+        btnPlay.innerHTML = enPause ? ICONE_PLAY : ICONE_PAUSE;
+        grandPlay.classList.toggle('visible', enPause);
+        conteneur.classList.toggle('en-lecture', !enPause);
+      }
+      function majProgression() {
+        if (video.duration) progression.value = Math.round((video.currentTime / video.duration) * 1000);
+        affTemps.textContent = temps(video.currentTime) + ' / ' + temps(video.duration);
+      }
+      function majSon() {
+        btnSon.innerHTML = (video.muted || video.volume === 0) ? ICONE_MUET : ICONE_SON;
+      }
+
+      grandPlay.addEventListener('click', basculer);
+      btnPlay.addEventListener('click', basculer);
+      video.addEventListener('click', basculer);
+      btnSon.addEventListener('click', function () { video.muted = !video.muted; });
+      progression.addEventListener('input', function () {
+        if (video.duration) video.currentTime = (progression.value / 1000) * video.duration;
+      });
+      ['play', 'pause', 'ended'].forEach(function (nom) { video.addEventListener(nom, majEtat); });
+      ['timeupdate', 'loadedmetadata', 'durationchange'].forEach(function (nom) { video.addEventListener(nom, majProgression); });
+      video.addEventListener('volumechange', majSon);
+
+      majEtat(); majProgression(); majSon();
+    });
   }
 })();

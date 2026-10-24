@@ -1,9 +1,16 @@
 <?php
-/** Attend une variable $p (ligne produit) dans le scope appelant. */
+/**
+ * Attend une variable $p (ligne produit) dans le scope appelant.
+ * Le bouton "Voir comment l'utiliser" n'apparaît que si la page définit
+ * $boutonVideoActif = true (et affiche les panneaux vidéo : accueil et boutique).
+ */
 $stockBas = $p['stock'] > 0 && $p['stock'] <= 5;
 $enRupture = $p['stock'] <= 0;
+$videoProduit = getVideoProduit($p['slug']);
+$classeVideo = $videoProduit ? ' a-video' : '';
+$attrVideo = $videoProduit ? ' data-video-cible="video-' . e($p['slug']) . '"' : '';
 ?>
-<div class="carte-produit">
+<div class="carte-produit<?= $classeVideo ?>"<?= $attrVideo ?>>
   <a href="<?= BASE_URL ?>/produit.php?slug=<?= e($p['slug']) ?>" class="vignette">
     <?php if (!empty($p['image'])): ?>
       <img src="<?= BASE_URL ?>/assets/images/produits/<?= e($p['image']) ?>" alt="<?= e($p['nom']) ?>" loading="lazy">
@@ -26,6 +33,11 @@ $enRupture = $p['stock'] <= 0;
       <span class="prix"><?= formatPrix($p['prix']) ?></span>
       <?php if (!empty($p['ancien_prix'])): ?><span class="prix-barre"><?= formatPrix($p['ancien_prix']) ?></span><?php endif; ?>
     </div>
+    <?php if ($videoProduit && !empty($boutonVideoActif)): ?>
+      <button type="button" class="btn-voir-video" data-video-cible="video-<?= e($p['slug']) ?>" aria-expanded="false">
+        ▶ Voir comment l'utiliser
+      </button>
+    <?php endif; ?>
     <form method="post" action="<?= BASE_URL ?>/panier_ajouter.php">
       <input type="hidden" name="produit_id" value="<?= (int)$p['id'] ?>">
       <input type="hidden" name="quantite" value="1">

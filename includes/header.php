@@ -13,7 +13,7 @@ $pageActive = $pageActive ?? '';
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?= e($titrePage) ?></title>
 <meta name="description" content="<?= e($descriptionPage) ?>">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css?v=<?= @filemtime(__DIR__ . "/../assets/css/style.css") ?: 1 ?>">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22><rect width=%2240%22 height=%2240%22 rx=%2210%22 fill=%22%231F3A24%22/><text x=%2250%25%22 y=%2258%25%22 text-anchor=%22middle%22 font-size=%2222%22 fill=%22%23F1E9D6%22>S</text></svg>">
 </head>
 <body>

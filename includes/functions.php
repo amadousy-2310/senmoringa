@@ -29,6 +29,23 @@ function getCategories(): array
     return $pdo->query("SELECT * FROM categories ORDER BY nom ASC")->fetchAll();
 }
 
+// ---------------------------------------------------
+// Produits phares : affichés en premier et côte à côte (boutique + accueil)
+// Ordre d'affichage = ordre de la liste.
+// ---------------------------------------------------
+function getSlugsProduitsPhares(): array
+{
+    return ['poudre-moringa-50g', 'huile-pousse-cheveux-moringa-30ml'];
+}
+
+function orderProduitsPhares(PDO $pdo): string
+{
+    $slugs = array_reverse(getSlugsProduitsPhares());
+    $liste = implode(', ', array_map([$pdo, 'quote'], $slugs));
+    return "FIELD(p.slug, $liste) DESC,";
+}
+
+
 function getProduits(array $filtres = []): array
 {
     $pdo = getPDO();
@@ -53,7 +70,7 @@ function getProduits(array $filtres = []): array
         'prix_asc'  => " ORDER BY p.prix ASC",
         'prix_desc' => " ORDER BY p.prix DESC",
         'recent'    => " ORDER BY p.created_at DESC",
-        default     => " ORDER BY p.ordre ASC, p.nom ASC",
+        default     => " ORDER BY " . orderProduitsPhares($pdo) . " p.ordre ASC, p.nom ASC",
     };
 
     if (!empty($filtres['limite'])) {
@@ -253,4 +270,42 @@ function panierLienWhatsApp(): string
     $texte .= "\nTotal : " . formatPrix($total) . "\n\nMerci de me confirmer la disponibilité, le mode de paiement et les modalités de livraison.";
 
     return 'https://wa.me/' . SITE_WHATSAPP . '?text=' . rawurlencode($texte);
+}
+
+// ---------------------------------------------------
+// Vidéos d'utilisation des produits
+// Pour ajouter une vidéo à un autre produit : déposer le .mp4 dans
+// assets/videos/ puis ajouter une ligne ci-dessous (clé = slug du produit).
+// ---------------------------------------------------
+function getVideosProduits(): array
+{
+    return [
+        'poudre-moringa-50g' => [
+            'fichier' => 'utilisation-poudre-moringa.mp4',
+            'poster'  => 'utilisation-poudre-moringa.jpg',
+            'titre'   => 'Comment utiliser la poudre de moringa',
+            'etapes'  => [
+                'Versez une cuillère de poudre de moringa dans un verre d\'eau.',
+                'Mélangez bien jusqu\'à ce que la poudre soit répartie.',
+                'Buvez, et profitez des bienfaits du moringa au quotidien.',
+            ],
+            'astuce'  => 'Vous pouvez aussi l\'ajouter à vos jus, smoothies, soupes ou sauces.',
+        ],
+        'huile-pousse-cheveux-moringa-30ml' => [
+            'fichier' => 'utilisation-huile-cheveux.mp4',
+            'poster'  => 'utilisation-huile-cheveux.jpg',
+            'titre'   => 'Comment utiliser l\'huile pousse-cheveux',
+            'etapes'  => [
+                'Prélevez quelques gouttes d\'huile avec la pipette, dans le creux de la main.',
+                'Frottez vos mains l\'une contre l\'autre pour réchauffer l\'huile.',
+                'Massez le cuir chevelu du bout des doigts, puis répartissez sur les longueurs.',
+            ],
+            'astuce'  => 'Elle peut aussi s\'utiliser en bain d\'huile ou pour l\'entretien des longueurs.',
+        ],
+    ];
+}
+
+function getVideoProduit(string $slug): ?array
+{
+    return getVideosProduits()[$slug] ?? null;
 }
